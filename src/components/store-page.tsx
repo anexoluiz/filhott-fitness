@@ -258,7 +258,7 @@ export default function StorePage() {
 
   useEffect(() => {
     const currentMatchMedia =
-    window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)");
+      window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)");
     const savedTheme = localStorage.getItem("theme");
     const setDark =
       (savedTheme === null && currentMatchMedia?.matches) ||
@@ -266,16 +266,17 @@ export default function StorePage() {
         ? true
         : false;
     setIsDarkMode(setDark);
-    currentMatchMedia?.addEventListener("change", (e) => {
+    currentMatchMedia.addEventListener("change", (e) => {
       const favicon =
         document.querySelector<HTMLLinkElement>("link[rel='icon']");
       if (favicon) {
-        favicon.href = e.matches ? "/favicon-light.svg" : "/favicon-dark.svg";
+        favicon.href =
+          e.media === "(prefers-color-scheme: dark)"
+            ? "/favicon-light.svg"
+            : "/favicon-dark.svg";
       }
     });
   }, []);
-
- 
 
   useEffect(() => {
     document.documentElement.classList.toggle("dark", isDarkMode);
