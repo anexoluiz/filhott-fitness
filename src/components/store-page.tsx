@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 "use client";
 
 import React, { useState, useEffect, useMemo } from "react";
@@ -117,7 +118,7 @@ const productsData = {
   ],
 };
 
-interface Product {
+export interface Product {
   id: number;
   category: string;
   name: string;
@@ -125,8 +126,16 @@ interface Product {
   image: string;
 }
 
-interface CartItem extends Product {
+export interface CartItem extends Product {
   quantity: number;
+}
+
+interface ProductCardProps {
+  product: Product;
+  cartItem: CartItem | undefined;
+  onAddToCart: (product: Product) => void;
+  onIncrement: (product: Product | CartItem) => void;
+  onDecrement: (product: Product | CartItem) => void;
 }
 
 function ProductCard({
@@ -135,13 +144,7 @@ function ProductCard({
   onAddToCart,
   onIncrement,
   onDecrement,
-}:{
-  product: Product;
-  cartItem: CartItem | undefined;
-  onAddToCart: (product: Product) => void;
-  onIncrement: (product: Product) => void;
-  onDecrement: (product: Product) => void;
-}) {
+}: ProductCardProps) {
   return (
     <Card className="w-64 flex-shrink-0 border-none shadow-md hover:shadow-xl transition-shadow duration-300">
       <Dialog>
@@ -199,14 +202,30 @@ function ProductCard({
   );
 }
 
-function ProductSection({ title, products, ...props }) {
+interface ProductSectionProps {
+  title: string;
+  products: Product[];
+  cartItems: CartItem[];
+  onAddToCart: (product: Product) => void;
+  onIncrement: (product: Product | CartItem) => void;
+  onDecrement: (product: Product | CartItem) => void;
+}
+
+function ProductSection({
+  title,
+  products,
+  cartItems,
+  onAddToCart,
+  onIncrement,
+  onDecrement,
+}: ProductSectionProps) {
   return (
     <section className="w-full py-12">
       <div className="container mx-auto px-4 md:px-6">
         <h2 className="text-3xl font-bold tracking-tighter mb-8">{title}</h2>
         <div className="flex space-x-6 overflow-x-auto pb-4 -mx-4 px-4">
-          {products.map((product) => {
-            const cartItem = props.cartItems.find(
+          {products.map((product: Product) => {
+            const cartItem = cartItems.find(
               (item) =>
                 item.id === product.id && item.category === product.category
             );
@@ -215,7 +234,9 @@ function ProductSection({ title, products, ...props }) {
                 key={`${product.category}-${product.id}`}
                 product={product}
                 cartItem={cartItem}
-                {...props}
+                onAddToCart={onAddToCart}
+                onIncrement={onIncrement}
+                onDecrement={onDecrement}
               />
             );
           })}
@@ -226,8 +247,8 @@ function ProductSection({ title, products, ...props }) {
 }
 
 export default function StorePage() {
-  const [isDarkMode, setIsDarkMode] = useState(false);
-  const [cartItems, setCartItems] = useState([]);
+  const [isDarkMode, setIsDarkMode] = useState<boolean>(false);
+  const [cartItems, setCartItems] = useState<CartItem[]>([]);
 
   useEffect(() => {
     const isDark = localStorage.getItem("theme") === "dark";
@@ -239,7 +260,7 @@ export default function StorePage() {
     localStorage.setItem("theme", isDarkMode ? "dark" : "light");
   }, [isDarkMode]);
 
-  const handleAddToCart = (product) => {
+  const handleAddToCart = (product: Product) => {
     setCartItems((prev) =>
       prev.find((i) => i.id === product.id && i.category === product.category)
         ? prev.map((i) =>
@@ -250,7 +271,8 @@ export default function StorePage() {
         : [...prev, { ...product, quantity: 1 }]
     );
   };
-  const handleIncrement = (product) => {
+
+  const handleIncrement = (product: Product | CartItem) => {
     setCartItems((prev) =>
       prev.map((i) =>
         i.id === product.id && i.category === product.category
@@ -259,7 +281,8 @@ export default function StorePage() {
       )
     );
   };
-  const handleDecrement = (product) => {
+
+  const handleDecrement = (product: Product | CartItem) => {
     setCartItems((prev) => {
       const item = prev.find(
         (i) => i.id === product.id && i.category === product.category
