@@ -3,14 +3,7 @@
 
 import React, { useState, useEffect, useMemo } from "react";
 
-import {
-  Dumbbell,
-  ShoppingCart,
-  Sun,
-  Moon,
-  Plus,
-  Minus,
-} from "lucide-react";
+import { Dumbbell, ShoppingCart, Sun, Moon, Plus, Minus } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
@@ -32,28 +25,32 @@ const productsData = {
       category: "shirts",
       name: "Camisa Básica Branca",
       price: 79.9,
-      image: "https://cdn.shoppub.io/cdn-cgi/image/w=1000,h=1000,q=80,f=auto/outlet360/media/uploads/produtos/foto/dwaxlvgg/camiseta-diesel-basica-branca-4.jpg",
+      image:
+        "https://cdn.shoppub.io/cdn-cgi/image/w=1000,h=1000,q=80,f=auto/outlet360/media/uploads/produtos/foto/dwaxlvgg/camiseta-diesel-basica-branca-4.jpg",
     },
     {
       id: 2,
       category: "shirts",
       name: "Regata Estampada Caveira",
       price: 89.9,
-      image: "https://seuloza.com.br/wp-content/uploads/2023/07/REGATA-ESTAMPADA-100-ALGODAO-FITNESS-SEU-LOZA-VARIAS-CORES-CAVEIRA.jpg",
+      image:
+        "https://seuloza.com.br/wp-content/uploads/2023/07/REGATA-ESTAMPADA-100-ALGODAO-FITNESS-SEU-LOZA-VARIAS-CORES-CAVEIRA.jpg",
     },
     {
       id: 3,
       category: "shirts",
       name: "Camisa Manga Longa Preta",
       price: 99.9,
-      image: "https://acdn-us.mitiendanube.com/stores/003/456/987/products/img_2957-copiar-1-670f02c297399b620c17081999155601-1024-1024.jpg",
+      image:
+        "https://acdn-us.mitiendanube.com/stores/003/456/987/products/img_2957-copiar-1-670f02c297399b620c17081999155601-1024-1024.jpg",
     },
     {
       id: 4,
       category: "shirts",
       name: "Camisa Oversized Cinza",
       price: 119.9,
-      image: "https://cdn.vnda.com.br/1000x/bulking/2024/10/21/12_14_16_989_1594186706_camiseta-oversized-strive-cinza-lan__amento-bulking__2.jpg?v=1729523656",
+      image:
+        "https://cdn.vnda.com.br/1000x/bulking/2024/10/21/12_14_16_989_1594186706_camiseta-oversized-strive-cinza-lan__amento-bulking__2.jpg?v=1729523656",
     },
   ],
   bottles: [
@@ -62,14 +59,16 @@ const productsData = {
       category: "bottles",
       name: "Garrafa Térmica 1L Preta",
       price: 129.9,
-      image: "https://images.tcdn.com.br/img/img_prod/1169820/garrafa_termica_aerolight_flast_flow_black_1_1l_stanley_2423_2_58f37ffbcaad8bba80f4e7b06f58bec1.jpg",
+      image:
+        "https://images.tcdn.com.br/img/img_prod/1169820/garrafa_termica_aerolight_flast_flow_black_1_1l_stanley_2423_2_58f37ffbcaad8bba80f4e7b06f58bec1.jpg",
     },
     {
       id: 2,
       category: "bottles",
       name: "Squeeze de Treino 750ml",
       price: 49.9,
-      image: "https://esportelegal.fbitsstatic.net/img/p/garrafa-squeeze-poker-aluminio-750ml-86094/297779.jpg?w=1000&h=1000&v=no-value",
+      image:
+        "https://esportelegal.fbitsstatic.net/img/p/garrafa-squeeze-poker-aluminio-750ml-86094/297779.jpg?w=1000&h=1000&v=no-value",
     },
     {
       id: 3,
@@ -83,7 +82,8 @@ const productsData = {
       category: "bottles",
       name: "Galão de Água 2.2L",
       price: 59.9,
-      image: "https://m.media-amazon.com/images/I/51QBLKFKhJL._UF894,1000_QL80_.jpg",
+      image:
+        "https://m.media-amazon.com/images/I/51QBLKFKhJL._UF894,1000_QL80_.jpg",
     },
   ],
   supplements: [
@@ -92,28 +92,32 @@ const productsData = {
       category: "supplements",
       name: "Whey Protein Concentrado",
       price: 159.9,
-      image: "https://lojamaxtitanium.vtexassets.com/arquivos/ids/158618-1920-0/100-whey-protein-max-titanium-sleeve-900g-baunilha-1.jpg?v=638834572167370000",
+      image:
+        "https://lojamaxtitanium.vtexassets.com/arquivos/ids/158618-1920-0/100-whey-protein-max-titanium-sleeve-900g-baunilha-1.jpg?v=638834572167370000",
     },
     {
       id: 2,
       category: "supplements",
       name: "Creatina Monohidratada 300g",
       price: 89.9,
-      image: "https://lojamaxtitanium.vtexassets.com/arquivos/ids/157717/creatine-max-titanium-300g-1.jpg?v=638715246475830000",
+      image:
+        "https://lojamaxtitanium.vtexassets.com/arquivos/ids/157717/creatine-max-titanium-300g-1.jpg?v=638715246475830000",
     },
     {
       id: 3,
       category: "supplements",
       name: "Pré-Treino Nuclear Rush",
       price: 119.9,
-      image: "https://images.tcdn.com.br/img/img_prod/971829/pre_treino_nuclear_rush_100g_bodyaction_235_1_d91597bec10d6d7ad0fac425ab18aff5.jpg",
+      image:
+        "https://images.tcdn.com.br/img/img_prod/971829/pre_treino_nuclear_rush_100g_bodyaction_235_1_d91597bec10d6d7ad0fac425ab18aff5.jpg",
     },
     {
       id: 4,
       category: "supplements",
       name: "Multivitamínico A-Z",
       price: 69.9,
-      image: "https://images.tcdn.com.br/img/img_prod/748920/multivitaminico_e_mineral_a_z_pote_90_capsulas_pro_healthy_175_1_ddfb75008a2a3f51dc3e13cefa5cbad4.jpg",
+      image:
+        "https://images.tcdn.com.br/img/img_prod/748920/multivitaminico_e_mineral_a_z_pote_90_capsulas_pro_healthy_175_1_ddfb75008a2a3f51dc3e13cefa5cbad4.jpg",
     },
   ],
 };
@@ -247,12 +251,19 @@ function ProductSection({
 }
 
 export default function StorePage() {
+  const isSystemDarkMode =
+    window.matchMedia &&
+    window.matchMedia("(prefers-color-scheme: dark)").matches;
   const [isDarkMode, setIsDarkMode] = useState<boolean>(false);
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
 
   useEffect(() => {
-    const isDark = localStorage.getItem("theme") === "dark";
-    setIsDarkMode(isDark);
+    const savedTheme = localStorage.getItem("theme");
+    const setDark =
+      (savedTheme === null && isSystemDarkMode) || savedTheme === "dark"
+        ? true
+        : false;
+    setIsDarkMode(setDark);
   }, []);
 
   useEffect(() => {
@@ -365,6 +376,12 @@ export default function StorePage() {
                             <p className="text-muted-foreground">
                               R$ {item.price.toFixed(2).replace(".", ",")}
                             </p>
+                            <p className="font-bold">
+                              R${" "}
+                              {(item.price * item.quantity)
+                                .toFixed(2)
+                                .replace(".", ",")}
+                            </p>
                             <div className="flex items-center mt-2">
                               <Button
                                 variant="outline"
@@ -387,12 +404,6 @@ export default function StorePage() {
                               </Button>
                             </div>
                           </div>
-                          <p className="font-bold">
-                            R${" "}
-                            {(item.price * item.quantity)
-                              .toFixed(2)
-                              .replace(".", ",")}
-                          </p>
                         </li>
                       ))}
                     </ul>
@@ -406,7 +417,9 @@ export default function StorePage() {
                         <span>R$ {subtotal.toFixed(2).replace(".", ",")}</span>
                       </div>
                       <SheetClose asChild>
-                        <Button className="w-full cursor-not-allowed">Finalizar Compra</Button>
+                        <Button className="w-full cursor-not-allowed">
+                          Finalizar Compra
+                        </Button>
                       </SheetClose>
                     </div>
                   </SheetFooter>
@@ -451,7 +464,10 @@ export default function StorePage() {
             reservados.
           </p>
           <p className="mt-2">
-            Utilizando Next.js, React, Tailwind CSS, Radix UI, Lucide Icons e Shadcn UI. O site foi desenvolvido para fins puramente educacionais e os direitos referentes as imagens utilizadas pertencem aos seus respectivos donos.
+            Utilizando Next.js, React, Tailwind CSS, Radix UI, Lucide Icons e
+            Shadcn UI. O site foi desenvolvido para fins puramente educacionais
+            e os direitos referentes as imagens utilizadas pertencem aos seus
+            respectivos donos.
           </p>
         </div>
       </footer>
