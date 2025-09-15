@@ -17,6 +17,7 @@ import {
   SheetClose,
 } from "@/components/ui/sheet";
 import { Dialog, DialogTrigger, DialogContent } from "@/components/ui/dialog";
+import { DialogTitle } from "@radix-ui/react-dialog";
 
 const productsData = {
   shirts: [
@@ -162,6 +163,7 @@ function ProductCard({
           </div>
         </DialogTrigger>
         <DialogContent className="p-0 border-0 max-w-2xl">
+          <DialogTitle className="sr-only">{product.name}</DialogTitle>
           <img
             src={product.image}
             alt={product.name}
@@ -251,20 +253,29 @@ function ProductSection({
 }
 
 export default function StorePage() {
-  const isSystemDarkMode =
-    window.matchMedia &&
-    window.matchMedia("(prefers-color-scheme: dark)").matches;
   const [isDarkMode, setIsDarkMode] = useState<boolean>(false);
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
 
   useEffect(() => {
+    const currentMatchMedia =
+    window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)");
     const savedTheme = localStorage.getItem("theme");
     const setDark =
-      (savedTheme === null && isSystemDarkMode) || savedTheme === "dark"
+      (savedTheme === null && currentMatchMedia?.matches) ||
+      savedTheme === "dark"
         ? true
         : false;
     setIsDarkMode(setDark);
+    currentMatchMedia?.addEventListener("change", (e) => {
+      const favicon =
+        document.querySelector<HTMLLinkElement>("link[rel='icon']");
+      if (favicon) {
+        favicon.href = e.matches ? "/favicon-light.svg" : "/favicon-dark.svg";
+      }
+    });
   }, []);
+
+ 
 
   useEffect(() => {
     document.documentElement.classList.toggle("dark", isDarkMode);
