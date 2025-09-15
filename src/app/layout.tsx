@@ -15,9 +15,6 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Filhott Fitness",
   description: "Os melhores começam por aqui.",
-  icons: {
-    icon: "/favicon.svg",
-  }
 };
 
 export default function RootLayout({
