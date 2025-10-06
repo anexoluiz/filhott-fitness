@@ -18,6 +18,7 @@ import {
 } from "@/components/ui/sheet";
 import { Dialog, DialogTrigger, DialogContent } from "@/components/ui/dialog";
 import { DialogTitle } from "@radix-ui/react-dialog";
+import Link from "next/link";
 
 const productsData = {
   shirts: [
@@ -158,7 +159,7 @@ function ProductCard({
             <img
               src={product.image}
               alt={product.name}
-              className="object-cover w-full h-72 transition-transform duration-300 ease-in-out hover:scale-105"
+              className="object-cover object-top w-full h-72 transition-transform duration-300 ease-in-out hover:scale-105"
             />
           </div>
         </DialogTrigger>
@@ -270,10 +271,7 @@ export default function StorePage() {
       const favicon =
         document.querySelector<HTMLLinkElement>("link[rel='icon']");
       if (favicon) {
-        favicon.href =
-          e.media === "(prefers-color-scheme: dark)"
-            ? "/favicon-light.svg"
-            : "/favicon-dark.svg";
+        favicon.href = e.matches ? "/favicon-light.svg" : "/favicon-dark.svg";
       }
     });
   }, []);
@@ -331,6 +329,22 @@ export default function StorePage() {
       cartItems.reduce((total, item) => total + item.price * item.quantity, 0),
     [cartItems]
   );
+
+  const whatsappLink = useMemo(() => {
+    if (cartItems.length === 0) return "";
+    let message = "Olá, gostaria de finalizar esse pedido aqui:\n\n";
+    cartItems.forEach((item) => {
+      message += `- ${item.name} (x${item.quantity}): R$ ${(
+        item.price * item.quantity
+      )
+        .toFixed(2)
+        .replace(".", ",")}\n`;
+    });
+    message += `\nSubtotal: R$ ${subtotal.toFixed(2).replace(".", ",")}\n\n`;
+    message += "Por favor, me envie os detalhes para pagamento e entrega.";
+    message = "https://wa.me/5511999999999?text=" + encodeURIComponent(message);
+    return message;
+  }, [cartItems]);
 
   return (
     <div className="min-h-screen bg-background">
@@ -429,9 +443,24 @@ export default function StorePage() {
                         <span>R$ {subtotal.toFixed(2).replace(".", ",")}</span>
                       </div>
                       <SheetClose asChild>
-                        <Button className="w-full cursor-not-allowed">
-                          Finalizar Compra
-                        </Button>
+                        {whatsappLink ? (
+                          <Link
+                            href={whatsappLink}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            <Button className="w-full">Finalizar Compra</Button>
+                          </Link>
+                        ) : (
+                          <Button
+                            className="w-full cursor-not-allowed opacity-50"
+                            disabled
+                            aria-disabled="true"
+                            tabIndex={-1}
+                          >
+                            Finalizar Compra
+                          </Button>
+                        )}
                       </SheetClose>
                     </div>
                   </SheetFooter>
