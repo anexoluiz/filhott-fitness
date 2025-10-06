@@ -5,6 +5,8 @@ import React, { useState, useEffect, useMemo } from "react";
 
 import { Dumbbell, ShoppingCart, Sun, Moon, Plus, Minus } from "lucide-react";
 
+import { SiWhatsapp } from "@icons-pack/react-simple-icons";
+
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import {
@@ -344,7 +346,7 @@ export default function StorePage() {
     message += "Por favor, me envie os detalhes para pagamento e entrega.";
     message = "https://wa.me/5511999999999?text=" + encodeURIComponent(message);
     return message;
-  }, [cartItems]);
+  }, [cartItems, subtotal]);
 
   return (
     <div className="min-h-screen bg-background">
@@ -449,7 +451,10 @@ export default function StorePage() {
                             target="_blank"
                             rel="noopener noreferrer"
                           >
-                            <Button className="w-full">Finalizar Compra</Button>
+                            <Button className="w-full">
+                              <SiWhatsapp />
+                              Finalizar Compra
+                            </Button>
                           </Link>
                         ) : (
                           <Button
